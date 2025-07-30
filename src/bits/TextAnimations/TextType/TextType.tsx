@@ -29,6 +29,7 @@ interface TextTypeProps {
   onSentenceComplete?: (sentence: string, index: number) => void;
   startOnVisible?: boolean;
   reverseMode?: boolean;
+  playAnimation?: boolean; // New prop
 }
 
 const TextType = ({
@@ -50,10 +51,11 @@ const TextType = ({
   onSentenceComplete,
   startOnVisible = false,
   reverseMode = false,
+  playAnimation = true, // Default to true for existing uses
   ...props
 }: TextTypeProps & React.HTMLAttributes<HTMLElement>) => {
-  const [displayedText, setDisplayedText] = useState("");
-  const [currentCharIndex, setCurrentCharIndex] = useState(0);
+  const [displayedText, setDisplayedText] = useState(playAnimation ? "" : (Array.isArray(text) ? text[0] : text));
+  const [currentCharIndex, setCurrentCharIndex] = useState(playAnimation ? 0 : (Array.isArray(text) ? text[0] : text).length);
   const [isDeleting, setIsDeleting] = useState(false);
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
   const [isVisible, setIsVisible] = useState(!startOnVisible);
@@ -106,7 +108,11 @@ const TextType = ({
   }, [showCursor, cursorBlinkDuration]);
 
   useEffect(() => {
-    if (!isVisible) return;
+    if (!isVisible || !playAnimation) {
+      setDisplayedText(Array.isArray(text) ? text[0] : text);
+      setCurrentCharIndex((Array.isArray(text) ? text[0] : text).length);
+      return;
+    }
 
     let timeout: number;
 
@@ -176,6 +182,7 @@ const TextType = ({
     reverseMode,
     variableSpeed,
     onSentenceComplete,
+    playAnimation,
   ]);
 
   const shouldHideCursor =

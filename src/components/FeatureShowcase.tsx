@@ -1,9 +1,5 @@
-import React from 'react';
-import AnimatedList from '../bits/Components/AnimatedList/AnimatedList';
-import SpotlightCard from '../bits/Components/SpotlightCard/SpotlightCard';
-import CountUp from '../bits/TextAnimations/CountUp/CountUp';
-import GlareHover from '../bits/Animations/GlareHover/GlareHover';
-import CardSwap, { Card } from '../bits/Components/CardSwap/CardSwap';
+import React, { useCallback } from 'react';
+import ScrollStack, { ScrollStackItem } from '../bits/Components/ScrollStack/ScrollStack';
 import './FeatureShowcase.css';
 
 interface Feature {
@@ -73,14 +69,21 @@ const features: Feature[] = [
   }
 ];
 
-const FeatureShowcase: React.FC = () => {
-  const handleFeatureSelect = (featureId: string, index: number) => {
-    console.log(`Selected feature: ${featureId} at index ${index}`);
-  };
+interface FeatureShowcaseProps {
+  onStackComplete?: () => void;
+}
 
-  const handleCardClick = (index: number) => {
-    console.log(`Card clicked: ${features[index].title}`);
-  };
+const FeatureShowcase: React.FC<FeatureShowcaseProps> = ({ onStackComplete }) => {
+  const handleStackComplete = useCallback(() => {
+    if (onStackComplete) {
+      onStackComplete();
+    } else {
+      const nextSection = document.querySelector('.target-audience');
+      if (nextSection) {
+        nextSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  }, [onStackComplete]);
 
   return (
     <section className="feature-showcase">
@@ -94,48 +97,32 @@ const FeatureShowcase: React.FC = () => {
           </p>
         </div>
 
-        <div className="feature-showcase__cardswap-container">
-          <CardSwap
-            width={800}
-            height={200}
-            cardDistance={60}
-            verticalDistance={100}
-            delay={4000}
-            skewAmount={0}
-            easing="elastic"
-            pauseOnHover={true}
-          >
-            {features.map((feature, index) => (
-              <Card key={feature.id} customClass="feature-card-swap">
-                <div className="feature-card-swap__content">
-
-                  
-                  <h3 className="feature-card-swap__title">
+        <div className="feature-showcase__scrollstack-container">
+          <ScrollStack onStackComplete={handleStackComplete}>
+            {features.map((feature) => (
+              <ScrollStackItem key={feature.id} itemClassName="feature-scroll-stack-item">
+                <div className="feature-scroll-stack-item__content">
+                  <h3 className="feature-scroll-stack-item__title">
                     {feature.title}
                   </h3>
-                  
-                  <p className="feature-card-swap__description">
+                  <p className="feature-scroll-stack-item__description">
                     {feature.description}
                   </p>
-                  
-                  <div className="feature-card-swap__stats">
-                    <div className="feature-card-swap__stat">
-  
-                      <span className="feature-card-swap__stat-label">
+                  <div className="feature-scroll-stack-item__stats">
+                    <div className="feature-scroll-stack-item__stat">
+                      <span className="feature-scroll-stack-item__stat-label">
                         {feature.statLabel}
                       </span>
                     </div>
                   </div>
                 </div>
-              </Card>
+              </ScrollStackItem>
             ))}
-          </CardSwap>
+          </ScrollStack>
         </div>
-
-
       </div>
     </section>
   );
 };
 
-export default FeatureShowcase; 
+export default FeatureShowcase;

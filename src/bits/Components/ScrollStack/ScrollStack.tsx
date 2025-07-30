@@ -163,16 +163,6 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
 
         lastTransformsRef.current.set(i, newTransform);
       }
-
-      if (i === cardsRef.current.length - 1) {
-        const isInView = scrollTop >= pinStart && scrollTop <= pinEnd;
-        if (isInView && !stackCompletedRef.current) {
-          stackCompletedRef.current = true;
-          onStackComplete?.();
-        } else if (!isInView && stackCompletedRef.current) {
-          stackCompletedRef.current = false;
-        }
-      }
     });
 
     isUpdatingRef.current = false;
@@ -184,14 +174,25 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
     baseScale,
     rotationAmount,
     blurAmount,
-    onStackComplete,
     calculateProgress,
     parsePercentage,
   ]);
 
-  const handleScroll = useCallback(() => {
+  const handleScroll = useCallback((e: any) => {
     updateCardTransforms();
-  }, [updateCardTransforms]);
+    const scroller = scrollerRef.current;
+    if (!scroller || !onStackComplete) return;
+
+    const { scrollTop, scrollHeight, clientHeight } = scroller;
+    const isAtEnd = scrollTop >= scrollHeight - clientHeight - 1; 
+
+    if (isAtEnd && e.direction === 1 && !stackCompletedRef.current) {
+      stackCompletedRef.current = true;
+      onStackComplete();
+    } else if (!isAtEnd) {
+      stackCompletedRef.current = false;
+    }
+  }, [updateCardTransforms, onStackComplete]);
 
   const setupLenis = useCallback(() => {
     const scroller = scrollerRef.current;

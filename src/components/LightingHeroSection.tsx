@@ -34,7 +34,7 @@ const LightingHeroSection: React.FC = () => {
         {/* Main Shiny Text */}
         <div className="hero-shiny-text">
           <ShinyText
-            text="Shining a new light on cross border comparisons"
+            text="Shining a new light on investments"
             disabled={false}
             speed={3}
             className="hero-shiny-text-component"

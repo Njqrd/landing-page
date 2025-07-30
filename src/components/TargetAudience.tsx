@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Stack from '../bits/Components/Stack/Stack';
 import ShinyText from '../bits/TextAnimations/ShinyText/ShinyText';
 import TextType from '../bits/TextAnimations/TextType/TextType';
 import './TargetAudience.css';
@@ -12,7 +11,6 @@ interface UserPersona {
   benefits: string[];
   color: string;
   gradient: string;
-  image: string;
 }
 
 const userPersonas: UserPersona[] = [
@@ -29,7 +27,6 @@ const userPersonas: UserPersona[] = [
     ],
     color: '#3B82F6',
     gradient: 'linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%)',
-    image: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=500&auto=format'
   },
   {
     id: 2,
@@ -44,7 +41,6 @@ const userPersonas: UserPersona[] = [
     ],
     color: '#10B981',
     gradient: 'linear-gradient(135deg, #10B981 0%, #059669 100%)',
-    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=500&auto=format'
   },
   {
     id: 3,
@@ -59,25 +55,15 @@ const userPersonas: UserPersona[] = [
     ],
     color: '#8B5CF6',
     gradient: 'linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%)',
-    image: 'https://images.unsplash.com/photo-1559526324-4b87b5e36e44?q=80&w=500&auto=format'
   }
 ];
 
 const TargetAudience: React.FC = () => {
   const [hoveredPersona, setHoveredPersona] = useState<UserPersona | null>(null);
-  const [isTyping, setIsTyping] = useState(false);
 
   const handlePersonaHover = (persona: UserPersona | null) => {
     setHoveredPersona(persona);
-    if (persona) {
-      setIsTyping(true);
-    }
   };
-
-  const cardsData = userPersonas.map(persona => ({
-    id: persona.id,
-    img: persona.image
-  }));
 
   return (
     <section className="target-audience">
@@ -96,20 +82,8 @@ const TargetAudience: React.FC = () => {
         </div>
 
         <div className="target-audience__content">
-          <div className="target-audience__stack-container">
-            <div className="target-audience__stack-wrapper">
-              <Stack
-                cardsData={cardsData}
-                cardDimensions={{ width: 300, height: 400 }}
-                sensitivity={150}
-                sendToBackOnClick={true}
-                animationConfig={{ stiffness: 200, damping: 25 }}
-              />
-            </div>
-          </div>
-
           <div className="target-audience__personas">
-            {userPersonas.map((persona, index) => (
+            {userPersonas.map((persona) => (
               <div
                 key={persona.id}
                 className={`target-audience__persona cursor-target ${hoveredPersona?.id === persona.id ? 'active' : ''}`}
@@ -130,28 +104,27 @@ const TargetAudience: React.FC = () => {
                   {persona.description}
                 </p>
 
-                {hoveredPersona?.id === persona.id && (
-                  <div className="target-audience__persona-benefits">
-                    <h4 className="target-audience__benefits-title">
-                      Key Benefits:
-                    </h4>
-                    <ul className="target-audience__benefits-list">
-                      {persona.benefits.map((benefit, benefitIndex) => (
-                        <li key={benefitIndex} className="target-audience__benefit-item">
-                          <TextType
-                            text={benefit}
-                            typingSpeed={30}
-                            initialDelay={benefitIndex * 200}
-                            className="target-audience__benefit-text"
-                            showCursor={false}
-                            loop={false}
-               
-                          />
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
+                <div className="target-audience__persona-benefits">
+                  <h4 className="target-audience__benefits-title">
+                    Key Benefits:
+                  </h4>
+                  <ul className="target-audience__benefits-list">
+                    {persona.benefits.map((benefit, benefitIndex) => (
+                      <li key={benefitIndex} className="target-audience__benefit-item">
+                        <TextType
+                          key={`${persona.id}-${benefitIndex}`}
+                          text={benefit}
+                          typingSpeed={30}
+                          initialDelay={benefitIndex * 50}
+                          className="target-audience__benefit-text"
+                          showCursor={false}
+                          loop={false}
+                          playAnimation={hoveredPersona?.id === persona.id}
+                        />
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
             ))}
           </div>
@@ -180,4 +153,4 @@ const TargetAudience: React.FC = () => {
   );
 };
 
-export default TargetAudience; 
+export default TargetAudience;

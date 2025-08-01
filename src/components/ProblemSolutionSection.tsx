@@ -5,38 +5,32 @@ const ProblemSolutionSection: React.FC = () => {
   const problemSolutionData = [
     {
       problem: {
-        icon: '🌐',
         title: 'Fragmented Data Sources',
-        description: 'Scattered information across multiple platforms and regions'
+        description: 'Tired of piecing together ETF data from disparate, unreliable sources? Our users often struggle with fragmented information spread across multiple platforms and regions, leading to incomplete analyses and missed opportunities.'
       },
       solution: {
-        icon: '✅',
         title: 'Unified Global Database',
-        description: 'Single source of truth for all ETF data worldwide'
+        description: 'Gain a comprehensive view with our single source of truth for all ETF data worldwide. We aggregate and harmonize data from thousands of sources, providing you with a consistent and reliable foundation for your research.'
       }
     },
     {
       problem: {
-        icon: '💱',
-        title: 'Currency Confusion',
-        description: 'Complex currency conversions and exchange rate issues'
+        title: 'Complex Currency Conversions',
+        description: 'Navigating the complexities of multi-currency ETF portfolios can be a headache, with constant manual conversions and the risk of miscalculations due to fluctuating exchange rates.'
       },
       solution: {
-        icon: '✅',
         title: 'Smart Currency Normalization',
-        description: 'Automatic currency handling with real-time exchange rates'
+        description: 'Eliminate currency confusion with automatic handling and real-time exchange rates. Our platform seamlessly converts all data to your preferred currency, ensuring accuracy and saving you valuable time.'
       }
     },
     {
       problem: {
-        icon: '📊',
-        title: 'Inconsistent Benchmarks',
-        description: 'Different benchmarks across regions and asset classes'
+        title: 'Inconsistent Benchmarking',
+        description: 'Comparing ETF performance is challenging when faced with diverse benchmarks across different regions, asset classes, and reporting methodologies, making true apples-to-apples comparisons nearly impossible.'
       },
       solution: {
-        icon: '✅',
-        title: 'Standardized Metrics',
-        description: 'Unified benchmarks and performance comparisons'
+        title: 'Standardized Performance Metrics',
+        description: 'Achieve true clarity with unified benchmarks and consistent performance comparisons. Our standardized metrics allow you to accurately evaluate ETFs, regardless of their origin or underlying assets.'
       }
     }
   ]
@@ -61,33 +55,25 @@ const ProblemSolutionSection: React.FC = () => {
               key={index}
               className="problem-solution-card"
               width="350px"
-              height="250px"
+              height="400px"
               frontContent={
                 <div className="card-content">
-                  <div className="card-icon problem-icon">
-                    {item.problem.icon}
-                  </div>
                   <h3 className="card-title problem-title">
                     {item.problem.title}
                   </h3>
                   <p className="card-description problem-description">
                     {item.problem.description}
                   </p>
-     
                 </div>
               }
               backContent={
                 <div className="card-content">
-                  <div className="card-icon solution-icon">
-                    {item.solution.icon}
-                  </div>
                   <h3 className="card-title solution-title">
                     {item.solution.title}
                   </h3>
                   <p className="card-description solution-description">
                     {item.solution.description}
                   </p>
-
                 </div>
               }
             />
@@ -108,4 +94,4 @@ const ProblemSolutionSection: React.FC = () => {
   )
 }
 
-export default ProblemSolutionSection 
+export default ProblemSolutionSection

@@ -26,10 +26,12 @@
 .feature-showcase__title {
   font-size: 3rem;
   font-weight: 700;
-  background: linear-gradient(135deg, var(--chart-primary-color) 0%, var(--benchmark-color) 50%, var(--mean-color) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  /* Removed gradient, set to solid color */
+  background: none;
+  -webkit-background-clip: unset;
+  -webkit-text-fill-color: #333; /* Dark grey */
+  background-clip: unset;
+  color: #333; /* Dark grey */
   margin-bottom: 1rem;
   line-height: 1.2;
 }
@@ -111,11 +113,12 @@
 .feature-scroll-stack-item__stat-number {
   font-size: 2rem;
   font-weight: 700;
-  color: var(--text-color);
-  background: linear-gradient(135deg, var(--chart-primary-color) 0%, var(--benchmark-color) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  /* Removed gradient, set to solid color */
+  background: none;
+  -webkit-background-clip: unset;
+  -webkit-text-fill-color: #333; /* Dark grey */
+  background-clip: unset;
+  color: #333; /* Dark grey */
 }
 
 .feature-scroll-stack-item__stat-label {

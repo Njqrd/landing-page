@@ -4,33 +4,33 @@ import FlipCard from './FlipCard'
 const ProblemSolutionSection: React.FC = () => {
   const problemSolutionData = [
     {
-      problem: {
-        title: 'Fragmented Data Sources',
-        description: 'Tired of piecing together ETF data from disparate, unreliable sources? Our users often struggle with fragmented information spread across multiple platforms and regions, leading to incomplete analyses and missed opportunities.'
+      "problem": {
+        "title": "Fragmented Data Sources",
+        "description": "Investment data is often scattered across platforms, formats, and regions, making it hard to get a clear, complete picture. Analysts waste time stitching together partial datasets, risking inaccurate conclusions and missed insights."
       },
-      solution: {
-        title: 'Unified Global Database',
-        description: 'Gain a comprehensive view with our single source of truth for all ETF data worldwide. We aggregate and harmonize data from thousands of sources, providing you with a consistent and reliable foundation for your research.'
+      "solution": {
+        "title": "Seamless Global Integration",
+        "description": "Our system effortlessly integrates investment data from any source, regardless of region or format, into a unified, reliable platform. With harmonized data and global coverage, you get a single, consistent foundation for deep analysis and confident decision-making."
       }
     },
     {
       problem: {
-        title: 'Complex Currency Conversions',
-        description: 'Navigating the complexities of multi-currency ETF portfolios can be a headache, with constant manual conversions and the risk of miscalculations due to fluctuating exchange rates.'
+        title: 'Currency Fluctuations',
+        description: 'When comparing funds from different regions, currency fluctuations can significantly distort performance. Each fund may be denominated in a different base currency, and changes in exchange rates can make a fund appear to outperform or underperform purely due to currency movements, not actual investment performance.'
       },
       solution: {
-        title: 'Smart Currency Normalization',
-        description: 'Eliminate currency confusion with automatic handling and real-time exchange rates. Our platform seamlessly converts all data to your preferred currency, ensuring accuracy and saving you valuable time.'
+        title: 'Unified Currency View',
+        description: 'Avoid misleading comparisons caused by fluctuating exchange rates. Our platform automatically adjusts all fund data using real-time rates and a USD base, giving you a consistent and accurate view, no matter the region or base currency.'
       }
     },
     {
-      problem: {
-        title: 'Inconsistent Benchmarking',
-        description: 'Comparing ETF performance is challenging when faced with diverse benchmarks across different regions, asset classes, and reporting methodologies, making true apples-to-apples comparisons nearly impossible.'
+      "problem": {
+        "title": "Inconsistent Benchmarking",
+        "description": "Comparing ETF performance is challenging when different benchmarks, asset classes, and reporting standards come into play. Without consistency, making fair, apples-to-apples comparisons becomes nearly impossible."
       },
-      solution: {
-        title: 'Standardized Performance Metrics',
-        description: 'Achieve true clarity with unified benchmarks and consistent performance comparisons. Our standardized metrics allow you to accurately evaluate ETFs, regardless of their origin or underlying assets.'
+      "solution": {
+        "title": "Standardized Performance Metrics",
+        "description": "We calculate the same key metrics across all funds using unified benchmarks and a consistent methodology. This ensures accurate, fair comparisons, regardless of fund origin, asset class, or region, empowering confident decision-making."
       }
     }
   ]
@@ -41,10 +41,10 @@ const ProblemSolutionSection: React.FC = () => {
         {/* Section Header */}
         <div className="section-header">
           <h2 className="section-title">
-            The Problems We Solve
+            The challenges in comparing investements
           </h2>
           <p className="section-subtitle">
-            Hover over each card to see how Find Alpha IO transforms your workflow
+            Hover over each card to see Find Alpha IO's solution
           </p>
         </div>
 

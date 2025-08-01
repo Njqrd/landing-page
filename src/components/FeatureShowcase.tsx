@@ -1,12 +1,14 @@
-import React, { useCallback } from 'react';
-import ScrollStack, { ScrollStackItem } from '../bits/Components/ScrollStack/ScrollStack';
+import React, { useState, useEffect } from 'react';
+import Carousel from '../bits/Components/Carousel/Carousel';
+import PixelCard from '../bits/Components/PixelCard/PixelCard'; // Import PixelCard
+import { FiDollarSign, FiZap, FiGlobe, FiBarChart2, FiSearch, FiFileText } from 'react-icons/fi';
 import './FeatureShowcase.css';
 
 interface Feature {
   id: string;
   title: string;
   description: string;
-  icon: string;
+  icon: React.ReactElement; // Modified to be React.ReactElement for icons
   stat: number;
   statLabel: string;
   color: string;
@@ -17,7 +19,7 @@ const features: Feature[] = [
     id: 'cross-region',
     title: 'Cross-Region Comparison',
     description: 'Compare ETFs across different markets and regions with unified metrics',
-    icon: '',
+    icon: <FiGlobe className="carousel-icon" />,
     stat: 45,
     statLabel: 'Countries',
     color: '#3B82F6'
@@ -26,7 +28,7 @@ const features: Feature[] = [
     id: 'real-time',
     title: 'Real-Time Data Sync',
     description: 'Live data updates from global exchanges and financial institutions',
-    icon: '',
+    icon: <FiZap className="carousel-icon" />,
     stat: 99.9,
     statLabel: 'Uptime %',
     color: '#10B981'
@@ -35,7 +37,7 @@ const features: Feature[] = [
     id: 'multi-currency',
     title: 'Multi-Currency Support',
     description: 'Automatic currency normalization and conversion for accurate comparisons',
-    icon: '',
+    icon: <FiDollarSign className="carousel-icon" />,
     stat: 150,
     statLabel: 'Currencies',
     color: '#F59E0B'
@@ -44,7 +46,7 @@ const features: Feature[] = [
     id: 'analytics',
     title: 'Advanced Analytics',
     description: 'Professional-grade analysis tools with custom benchmarks and metrics',
-    icon: '',
+    icon: <FiBarChart2 className="carousel-icon" />,
     stat: 50,
     statLabel: 'Metrics',
     color: '#8B5CF6'
@@ -53,7 +55,7 @@ const features: Feature[] = [
     id: 'search',
     title: 'Smart Search & Filters',
     description: 'Intelligent search with advanced filtering and categorization',
-    icon: '',
+    icon: <FiSearch className="carousel-icon" />,
     stat: 10000,
     statLabel: 'ETFs',
     color: '#EF4444'
@@ -62,7 +64,7 @@ const features: Feature[] = [
     id: 'reports',
     title: 'Professional Reports',
     description: 'Generate comprehensive reports for clients and stakeholders',
-    icon: '',
+    icon: <FiFileText className="carousel-icon" />,
     stat: 25,
     statLabel: 'Templates',
     color: '#06B6D4'
@@ -70,20 +72,41 @@ const features: Feature[] = [
 ];
 
 interface FeatureShowcaseProps {
-  onStackComplete?: () => void;
+  // onStackComplete is no longer relevant for Carousel
+  // onStackComplete?: () => void;
 }
 
-const FeatureShowcase: React.FC<FeatureShowcaseProps> = ({ onStackComplete }) => {
-  const handleStackComplete = useCallback(() => {
-    if (onStackComplete) {
-      onStackComplete();
-    } else {
-      const nextSection = document.querySelector('.target-audience');
-      if (nextSection) {
-        nextSection.scrollIntoView({ behavior: 'smooth' });
-      }
-    }
-  }, [onStackComplete]);
+const FeatureShowcase: React.FC<FeatureShowcaseProps> = () => {
+  const [carouselWidth, setCarouselWidth] = useState(0);
+
+  useEffect(() => {
+    const calculateWidth = () => {
+      setCarouselWidth(window.innerWidth * 0.5); // 80vw
+    };
+
+    calculateWidth(); // Set initial width
+    window.addEventListener('resize', calculateWidth); // Update on resize
+
+    return () => {
+      window.removeEventListener('resize', calculateWidth);
+    };
+  }, []);
+
+  // Map features to CarouselItem type, rendering PixelCard
+  const carouselItems = features.map((feature, index) => ({
+    id: index, // Carousel uses number for ID
+    content: (
+      <PixelCard key={feature.id} colors={feature.color}> {/* Pass color to PixelCard */}
+        <div className="carousel-item-header">
+          <div className="carousel-icon-container">{feature.icon}</div>
+        </div>
+        <div className="carousel-item-content">
+          <h3 className="carousel-item-title">{feature.title}</h3>
+          <p className="carousel-item-description">{feature.description}</p>
+        </div>
+      </PixelCard>
+    ),
+  }));
 
   return (
     <section className="feature-showcase">
@@ -97,28 +120,10 @@ const FeatureShowcase: React.FC<FeatureShowcaseProps> = ({ onStackComplete }) =>
           </p>
         </div>
 
-        <div className="feature-showcase__scrollstack-container">
-          <ScrollStack onStackComplete={handleStackComplete}>
-            {features.map((feature) => (
-              <ScrollStackItem key={feature.id} itemClassName="feature-scroll-stack-item">
-                <div className="feature-scroll-stack-item__content">
-                  <h3 className="feature-scroll-stack-item__title">
-                    {feature.title}
-                  </h3>
-                  <p className="feature-scroll-stack-item__description">
-                    {feature.description}
-                  </p>
-                  <div className="feature-scroll-stack-item__stats">
-                    <div className="feature-scroll-stack-item__stat">
-                      <span className="feature-scroll-stack-item__stat-label">
-                        {feature.statLabel}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </ScrollStackItem>
-            ))}
-          </ScrollStack>
+        <div className="feature-showcase__carousel-container">
+          {carouselWidth > 0 && (
+            <Carousel items={carouselItems} baseWidth={carouselWidth} autoplay={true} autoplayDelay={4000} loop={true} />
+          )}
         </div>
       </div>
     </section>

@@ -10,14 +10,14 @@ const LightingHeroSection: React.FC = () => {
         <LightRays 
           raysOrigin="top-center"
           raysColor={'#ffffff'}
-          raysSpeed={0.2}
-          lightSpread={0.2}
-          rayLength={5}
+          raysSpeed={0.5}
+          lightSpread={0.1}
+          rayLength={2}
           pulsating={false}
-          fadeDistance={1.5}
-          saturation={1}
+          fadeDistance={1}
+          saturation={0.8}
           followMouse={true}
-          mouseInfluence={0.2}
+          mouseInfluence={1}
           noiseAmount={0}
           distortion={0}
         //   className="lighting-rays-background"

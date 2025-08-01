@@ -23,6 +23,11 @@
   user-select: none;
 }
 
+.pixel-card > * {
+  position: relative;
+  z-index: 1;
+}
+
 .pixel-card::before {
   content: "";
   position: absolute;

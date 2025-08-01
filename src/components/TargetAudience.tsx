@@ -140,7 +140,7 @@ const TargetAudience: React.FC = () => {
             </p>
             <div className="target-audience__cta-buttons">
               <button className="target-audience__cta-primary cursor-target">
-                Start Free Trial
+                Start Finding Alpha
               </button>
               <button className="target-audience__cta-secondary cursor-target">
                 Schedule Demo

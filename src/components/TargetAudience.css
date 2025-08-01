@@ -25,7 +25,7 @@
 }
 
 .target-audience__shiny-title {
-  background: linear-gradient(135deg, var(--chart-primary-color) 0%, var(--benchmark-color) 50%, var(--mean-color) 100%);
+  background: linear-gradient(135deg, var(--chart-primary-color), var(--mean-color));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -211,7 +211,7 @@
 }
 
 .target-audience__cta-primary {
-  background: linear-gradient(135deg, var(--chart-primary-color) 0%, var(--benchmark-color) 100%);
+  background: linear-gradient(135deg, var(--chart-primary-color), var(--mean-color));
   color: white;
   border: none;
   padding: 1rem 2rem;

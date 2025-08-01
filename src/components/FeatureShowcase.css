@@ -26,12 +26,10 @@
 .feature-showcase__title {
   font-size: 3rem;
   font-weight: 700;
-  /* Removed gradient, set to solid color */
-  background: none;
-  -webkit-background-clip: unset;
-  -webkit-text-fill-color: #333; /* Dark grey */
-  background-clip: unset;
-  color: #333; /* Dark grey */
+  background: linear-gradient(135deg, var(--chart-primary-color), var(--mean-color));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   margin-bottom: 1rem;
   line-height: 1.2;
 }
@@ -88,7 +86,10 @@
 .feature-scroll-stack-item__title {
   font-size: 1.5rem;
   font-weight: 600;
-  color: var(--text-color);
+  background: linear-gradient(135deg, var(--chart-primary-color), var(--mean-color));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   margin-bottom: 1rem;
   line-height: 1.3;
 }
@@ -113,12 +114,10 @@
 .feature-scroll-stack-item__stat-number {
   font-size: 2rem;
   font-weight: 700;
-  /* Removed gradient, set to solid color */
-  background: none;
-  -webkit-background-clip: unset;
-  -webkit-text-fill-color: #333; /* Dark grey */
-  background-clip: unset;
-  color: #333; /* Dark grey */
+  background: linear-gradient(135deg, var(--chart-primary-color), var(--mean-color));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .feature-scroll-stack-item__stat-label {

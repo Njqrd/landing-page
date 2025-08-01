@@ -20,6 +20,7 @@ interface ThemeColors {
   benchmarkColor: string;
   percentile5Color: string;
   percentile95Color: string;
+  featureTitleColor: string;
 }
 
 interface Theme {
@@ -30,7 +31,7 @@ interface Theme {
 const theme: Theme = {
   light: {
     bg: '#F8FAFC',
-    cardBg: '#FFFFFF',
+    cardBg: '#ffffff',
     text: '#1E293B',
     border: '#CBD5E1',
     highlight: '#E0F2FE',
@@ -47,7 +48,8 @@ const theme: Theme = {
     meanColor: '#6366F1',
     benchmarkColor: '#7C3AED',
     percentile5Color: '#DC2626',
-    percentile95Color: '#16A34A'
+    percentile95Color: '#16A34A',
+    featureTitleColor: '#1a1a1a'
   },
   dark: {
     bg: '#0A0F1F',
@@ -68,7 +70,8 @@ const theme: Theme = {
     meanColor: '#48BB78',
     benchmarkColor: '#9F7AEA',
     percentile5Color: '#DC2626',
-    percentile95Color: '#16A34A'
+    percentile95Color: '#16A34A',
+    featureTitleColor: '#e0e0e0'
   }
 };
 
@@ -126,6 +129,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
     root.style.setProperty('--benchmark-color', colors.benchmarkColor);
     root.style.setProperty('--percentile5-color', colors.percentile5Color);
     root.style.setProperty('--percentile95-color', colors.percentile95Color);
+    root.style.setProperty('--feature-title-color', colors.featureTitleColor);
     
     // Save theme preference
     localStorage.setItem('theme', currentTheme);
@@ -146,4 +150,4 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
       {children}
     </ThemeContext.Provider>
   );
-}; 
+};

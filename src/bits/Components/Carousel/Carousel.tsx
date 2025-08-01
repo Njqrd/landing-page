@@ -1,8 +1,4 @@
-/*
-	Installed from https://reactbits.dev/ts/default/
-*/
-
-import { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { motion, useMotionValue, useTransform } from "framer-motion";
 // replace icons with your own if needed
 import {
@@ -29,6 +25,7 @@ export interface CarouselProps {
   pauseOnHover?: boolean;
   loop?: boolean;
   round?: boolean;
+  children?: React.ReactNode; // Add children prop
 }
 
 const DEFAULT_ITEMS: CarouselItem[] = [
@@ -77,12 +74,16 @@ export default function Carousel({
   pauseOnHover = false,
   loop = false,
   round = false,
+  children, // Destructure children prop
 }: CarouselProps): React.JSX.Element {
   const containerPadding = 16;
   const itemWidth = baseWidth - containerPadding * 2;
   const trackItemOffset = itemWidth + GAP;
 
-  const carouselItems = loop ? [...items, items[0]] : items;
+  // Use children for carousel items if provided, otherwise use default items
+  const currentItems = children ? React.Children.toArray(children) : items;
+
+  const carouselItems = loop ? [...currentItems, currentItems[0]] : currentItems;
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const x = useMotionValue(0);
   const [isHovered, setIsHovered] = useState<boolean>(false);
@@ -107,7 +108,7 @@ export default function Carousel({
     if (autoplay && (!pauseOnHover || !isHovered)) {
       const timer = setInterval(() => {
         setCurrentIndex((prev) => {
-          if (prev === items.length - 1 && loop) {
+          if (prev === currentItems.length - 1 && loop) {
             return prev + 1;
           }
           if (prev === carouselItems.length - 1) {
@@ -123,7 +124,7 @@ export default function Carousel({
     autoplayDelay,
     isHovered,
     loop,
-    items.length,
+    currentItems.length,
     carouselItems.length,
     pauseOnHover,
   ]);
@@ -146,14 +147,14 @@ export default function Carousel({
     const offset = info.offset.x;
     const velocity = info.velocity.x;
     if (offset < -DRAG_BUFFER || velocity < -VELOCITY_THRESHOLD) {
-      if (loop && currentIndex === items.length - 1) {
+      if (loop && currentIndex === currentItems.length - 1) {
         setCurrentIndex(currentIndex + 1);
       } else {
         setCurrentIndex((prev) => Math.min(prev + 1, carouselItems.length - 1));
       }
     } else if (offset > DRAG_BUFFER || velocity > VELOCITY_THRESHOLD) {
       if (loop && currentIndex === 0) {
-        setCurrentIndex(items.length - 1);
+        setCurrentIndex(currentItems.length - 1);
       } else {
         setCurrentIndex((prev) => Math.max(prev - 1, 0));
       }
@@ -194,47 +195,74 @@ export default function Carousel({
         transition={effectiveTransition}
         onAnimationComplete={handleAnimationComplete}
       >
-        {carouselItems.map((item, index) => {
-          const range = [
-            -(index + 1) * trackItemOffset,
-            -index * trackItemOffset,
-            -(index - 1) * trackItemOffset,
-          ];
-          const outputRange = [90, 0, -90];
-          const rotateY = useTransform(x, range, outputRange, { clamp: false });
-          return (
-            <motion.div
-              key={index}
-              className={`carousel-item ${round ? "round" : ""}`}
-              style={{
-                width: itemWidth,
-                height: round ? itemWidth : "100%",
-                rotateY: rotateY,
-                ...(round && { borderRadius: "50%" }),
-              }}
-              transition={effectiveTransition}
-            >
-              <div className={`carousel-item-header ${round ? "round" : ""}`}>
-                <span className="carousel-icon-container">{item.icon}</span>
-              </div>
-              <div className="carousel-item-content">
-                <div className="carousel-item-title">{item.title}</div>
-                <p className="carousel-item-description">{item.description}</p>
-              </div>
-            </motion.div>
-          );
-        })}
+        {/* Render children directly if provided, otherwise map items */}
+        {children ? 
+          React.Children.map(children, (child, index) => {
+            const range = [
+              -(index + 1) * trackItemOffset,
+              -index * trackItemOffset,
+              -(index - 1) * trackItemOffset,
+            ];
+            const outputRange = [90, 0, -90];
+            const rotateY = useTransform(x, range, outputRange, { clamp: false });
+            return (
+              <motion.div
+                key={index}
+                className={`carousel-item ${round ? "round" : ""}`}
+                style={{
+                  width: itemWidth,
+                  height: round ? itemWidth : "100%",
+                  rotateY: rotateY,
+                  ...(round && { borderRadius: "50%" }),
+                }}
+                transition={effectiveTransition}
+              >
+                {child}
+              </motion.div>
+            );
+          })
+          : items.map((item, index) => {
+            const range = [
+              -(index + 1) * trackItemOffset,
+              -index * trackItemOffset,
+              -(index - 1) * trackItemOffset,
+            ];
+            const outputRange = [90, 0, -90];
+            const rotateY = useTransform(x, range, outputRange, { clamp: false });
+            return (
+              <motion.div
+                key={index}
+                className={`carousel-item ${round ? "round" : ""}`}
+                style={{
+                  width: itemWidth,
+                  height: round ? itemWidth : "100%",
+                  rotateY: rotateY,
+                  ...(round && { borderRadius: "50%" }),
+                }}
+                transition={effectiveTransition}
+              >
+                <div className={`carousel-item-header ${round ? "round" : ""}`}>
+                  <span className="carousel-icon-container">{item.icon}</span>
+                </div>
+                <div className="carousel-item-content">
+                  <div className="carousel-item-title">{item.title}</div>
+                  <p className="carousel-item-description">{item.description}</p>
+                </div>
+              </motion.div>
+            );
+          })}
       </motion.div>
       <div className={`carousel-indicators-container ${round ? "round" : ""}`}>
         <div className="carousel-indicators">
-          {items.map((_, index) => (
+          {/* Use currentItems.length for indicators */}
+          {currentItems.map((_, index) => (
             <motion.div
               key={index}
               className={`carousel-indicator ${
-                currentIndex % items.length === index ? "active" : "inactive"
+                currentIndex % currentItems.length === index ? "active" : "inactive"
               }`}
               animate={{
-                scale: currentIndex % items.length === index ? 1.2 : 1,
+                scale: currentIndex % currentItems.length === index ? 1.2 : 1,
               }}
               onClick={() => setCurrentIndex(index)}
               transition={{ duration: 0.15 }}

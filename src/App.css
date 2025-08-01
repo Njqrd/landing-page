@@ -256,9 +256,7 @@ body {
 .section-title {
   font-size: 3rem;
   font-weight: 700;
-  background: linear-gradient(135deg, var(--chart-primary-color), var(--mean-color));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  background: '#ffffff';
   background-clip: text;
   margin-bottom: 1rem;
 }
@@ -317,11 +315,11 @@ body {
 }
 
 .problem-title {
-  color: var(--chart-primary-color);
+  color: '#ffffff';
 }
 
 .solution-title {
-  color: var(--mean-color);
+  color: '#ffffff';
 }
 
 .card-description {
@@ -538,6 +536,7 @@ body {
   text-align: center;
   max-width: 100%;
   word-wrap: break-word;
+  color: white; /* Added this line */
 }
 
 .lighting-hero-section .hero-typewriter-text {
@@ -583,6 +582,8 @@ body {
   cursor: pointer;
   transition: all 0.3s ease;
   text-shadow: 0 0 10px rgba(148, 163, 184, 0.3);
+  z-index: 20;
+  animation: float 3s ease-in-out infinite;
 }
 
 .lighting-hero-section .scroll-indicator:hover {

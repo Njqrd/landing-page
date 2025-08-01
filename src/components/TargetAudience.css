@@ -25,9 +25,7 @@
 }
 
 .target-audience__shiny-title {
-  background: linear-gradient(135deg, var(--chart-primary-color), var(--mean-color));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  background: '#ffffff';
   background-clip: text;
 }
 

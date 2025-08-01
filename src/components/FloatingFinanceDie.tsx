@@ -94,12 +94,12 @@ Ratio`
         context.fillRect(0, 0, 256, 256);
 
         // Border
-        context.strokeStyle = '#ffffff';
+        context.strokeStyle = '#ffffff';;
         context.lineWidth = 4;
         context.strokeRect(2, 2, 252, 252);
 
         // Text
-        context.fillStyle = '#ffffff';
+        context.fillStyle = '#ffffff';;
         context.font = 'bold 24px Arial';
         context.textAlign = 'center';
         context.textBaseline = 'middle';

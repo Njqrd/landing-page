@@ -38,6 +38,7 @@ const LightingHeroSection: React.FC = () => {
             disabled={false}
             speed={3}
             className="hero-shiny-text-component"
+            revealOnHover={true}
           />
         </div>
       </div>

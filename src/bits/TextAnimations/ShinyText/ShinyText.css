@@ -3,7 +3,7 @@
 */
 
 .shiny-text {
-  color: #b5b5b5a4; /* Adjust this color to change intensity/style */
+  color: white; /* Changed to white */
   background: linear-gradient(
     120deg,
     rgba(255, 255, 255, 0) 40%,

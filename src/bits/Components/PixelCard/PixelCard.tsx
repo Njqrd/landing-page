@@ -95,7 +95,7 @@ class Pixel {
       return;
     } else {
       this.size -= 0.1;
-    }
+    };
     this.draw();
   }
 
@@ -132,7 +132,7 @@ const VARIANTS = {
     activeColor: null,
     gap: 5,
     speed: 35,
-    colors: "#f8fafc,#f1f5f9,#cbd5e1",
+    colors: "#039301,#48bb78,#6EE7B7",
     noFocus: false,
   },
   blue: {

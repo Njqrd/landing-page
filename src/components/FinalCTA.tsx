@@ -77,8 +77,7 @@ const FinalCTA: React.FC = () => {
                 className="final-cta__primary-button cursor-target"
                 onClick={handlePrimaryClick}
               >
-                <span className="final-cta__button-text">Start Free Trial</span>
-                <span className="final-cta__button-icon">→</span>
+                <span className="final-cta__button-text">Start Finding Alpha</span>
               </button>
      
 
@@ -88,7 +87,7 @@ const FinalCTA: React.FC = () => {
                 onClick={handleSecondaryClick}
               >
                 <span className="final-cta__button-text">Schedule Demo</span>
-                <span className="final-cta__button-icon">📅</span>
+
               </button>
           </div>
 

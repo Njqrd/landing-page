@@ -1,0 +1,25 @@
+.pixel-card-carousel {
+  overflow: hidden;
+  width: 100%;
+  padding: 40px 0;
+}
+
+.pixel-card-carousel__track {
+  display: flex;
+  gap: 20px;
+  animation: scroll 30s linear infinite;
+  padding-bottom: 20px; /* To prevent shadow from being cut off */
+}
+
+.pixel-card-carousel__track:hover {
+  animation-play-state: paused;
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-250px * 3)); /* Adjust based on card width and number of cards */
+  }
+}

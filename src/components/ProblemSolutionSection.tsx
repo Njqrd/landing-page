@@ -82,11 +82,9 @@ const ProblemSolutionSection: React.FC = () => {
 
         {/* Call to Action */}
         <div className="section-cta">
-          <p className="cta-text">
-            Ready to transform your ETF analysis?
-          </p>
+
           <button className="cta-button cursor-target">
-            Start Free Trial
+            Start Finding Alpha
           </button>
         </div>
       </div>

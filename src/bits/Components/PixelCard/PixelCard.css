@@ -21,11 +21,13 @@
   isolation: isolate;
   transition: border-color 200ms cubic-bezier(0.5, 1, 0.89, 1);
   user-select: none;
+  background: #09090b; /* Reverted to a dark background color */
 }
 
 .pixel-card > * {
   position: relative;
   z-index: 1;
+  color: unset; /* Revert text color to default */
 }
 
 .pixel-card::before {
@@ -34,7 +36,7 @@
   inset: 0;
   margin: auto;
   aspect-ratio: 1;
-  background: radial-gradient(circle, #09090b, transparent 85%);
+  background: radial-gradient(circle, #09090b, transparent 85%); /* Reverted to original radial gradient */
   opacity: 0;
   transition: opacity 800ms cubic-bezier(0.5, 1, 0.89, 1);
 }

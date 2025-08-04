@@ -75,8 +75,7 @@ const InfiniteScroll: React.FC<InfiniteScrollProps> = ({
 
     const observer = Observer.create({
       target: container,
-      type: "wheel,touch,pointer",
-      preventDefault: true,
+      type: "touch,pointer",
       onPress: ({ target }) => {
         (target as HTMLElement).style.cursor = "grabbing";
       },
@@ -99,51 +98,45 @@ const InfiniteScroll: React.FC<InfiniteScrollProps> = ({
       },
     });
 
-    let rafId: number;
+    let animation: gsap.core.Tween;
     if (autoplay) {
       const directionFactor = autoplayDirection === "down" ? 1 : -1;
-      const speedPerFrame = autoplaySpeed * directionFactor;
-
-      const tick = () => {
-        divItems.forEach((child) => {
-          gsap.set(child, {
-            y: `+=${speedPerFrame}`,
-            modifiers: {
-              y: gsap.utils.unitize(wrapFn),
-            },
-          });
-        });
-        rafId = requestAnimationFrame(tick);
-      };
-
-      rafId = requestAnimationFrame(tick);
+      
+      animation = gsap.to(divItems, {
+        y: `+=${totalHeight * directionFactor}`,
+        ease: "none",
+        repeat: -1,
+        duration: (items.length * 2) / autoplaySpeed,
+        modifiers: {
+          y: (y) => wrapFn(parseFloat(y)) + "px",
+        },
+      });
 
       if (pauseOnHover) {
-        const stopTicker = () => rafId && cancelAnimationFrame(rafId);
-        const startTicker = () => {
-          rafId = requestAnimationFrame(tick);
-        };
+        const pauseAnimation = () => animation.pause();
+        const resumeAnimation = () => animation.resume();
 
-        container.addEventListener("mouseenter", stopTicker);
-        container.addEventListener("mouseleave", startTicker);
+        divItems.forEach((child) => {
+          child.addEventListener("mouseenter", pauseAnimation);
+          child.addEventListener("mouseleave", resumeAnimation);
+        });
 
         return () => {
           observer.kill();
-          stopTicker();
-          container.removeEventListener("mouseenter", stopTicker);
-          container.removeEventListener("mouseleave", startTicker);
-        };
-      } else {
-        return () => {
-          observer.kill();
-          rafId && cancelAnimationFrame(rafId);
+          animation.kill();
+          divItems.forEach((child) => {
+            child.removeEventListener("mouseenter", pauseAnimation);
+            child.removeEventListener("mouseleave", resumeAnimation);
+          });
         };
       }
     }
 
     return () => {
       observer.kill();
-      if (rafId) cancelAnimationFrame(rafId);
+      if (animation) {
+        animation.kill();
+      }
     };
   }, [
     items,
@@ -154,6 +147,7 @@ const InfiniteScroll: React.FC<InfiniteScrollProps> = ({
     isTilted,
     tiltDirection,
     negativeMargin,
+    itemMinHeight,
   ]);
 
   return (
@@ -169,7 +163,7 @@ const InfiniteScroll: React.FC<InfiniteScrollProps> = ({
           }
   
           .infinite-scroll-item {
-            height: ${itemMinHeight}px;
+            min-height: ${itemMinHeight}px;
             margin-top: ${negativeMargin};
           }
         `}

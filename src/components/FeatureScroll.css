@@ -1,0 +1,31 @@
+.feature-scroll-section {
+  width: 100vw;
+  padding: 4rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.feature-scroll-section .section-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  color: #fff;
+  text-align: center;
+}
+
+.feature-scroll-section .feature-card {
+  width: 50vw !important;
+  height: 10rem !important;
+}
+
+.feature-scroll-section .feature-title {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.feature-scroll-section .feature-description {
+  font-size: 1.25rem;
+  color: #ccc;
+}

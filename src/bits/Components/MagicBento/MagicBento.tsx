@@ -10,7 +10,6 @@ export interface BentoCardProps {
   color?: string;
   title?: string;
   description?: string;
-  label?: string;
   textAutoHide?: boolean;
   disableAnimations?: boolean;
 }
@@ -31,48 +30,41 @@ export interface BentoProps {
 
 const DEFAULT_PARTICLE_COUNT = 12;
 const DEFAULT_SPOTLIGHT_RADIUS = 300;
-const DEFAULT_GLOW_COLOR = "132, 0, 255";
+const DEFAULT_GLOW_COLOR = "3, 147, 2";
 const MOBILE_BREAKPOINT = 768;
 
 const cardData: BentoCardProps[] = [
   {
     color: "#060010",
-    title: "Analytics",
-    description: "Track user behavior",
-    label: "Insights",
+    title: "Currency Normalisation",
+    description: "Compare investments across regions with performance normalized to a single currency.",
+  },
+  {
+    color: "#060015",
+    title: "Unifying Benchmark",
+    description: "Evaluate investments against a standardized benchmark for accurate performance assessment.",
   },
   {
     color: "#060010",
-    title: "Dashboard",
-    description: "Centralized data view",
-    label: "Overview",
+    title: "Custom Dashboards",
+    description: "Build personalized dashboards to visualize and compare selected investments and metrics.",
   },
   {
     color: "#060010",
-    title: "Collaboration",
-    description: "Work together seamlessly",
-    label: "Teamwork",
+    title: "Artificial Intelligence",
+    description: "Leverage AI with a vectorized database for contextual insights and predictive analytics.",
   },
   {
     color: "#060010",
-    title: "Automation",
-    description: "Streamline workflows",
-    label: "Efficiency",
+    title: "Seamless Integration",
+    description: "Connect with financial platforms and data sources for real-time investment comparison.",
   },
   {
     color: "#060010",
-    title: "Integration",
-    description: "Connect favorite tools",
-    label: "Connectivity",
-  },
-  {
-    color: "#060010",
-    title: "Security",
-    description: "Enterprise-grade protection",
-    label: "Protection",
+    title: "Powerful Analytics",
+    description: "Access advanced tools to analyze investment trends, risks, and opportunities with precision.",
   },
 ];
-
 const createParticleElement = (
   x: number,
   y: number,
@@ -608,9 +600,6 @@ const MagicBento: React.FC<BentoProps> = ({
                 clickEffect={clickEffect}
                 enableMagnetism={enableMagnetism}
               >
-                <div className="card__header">
-                  <div className="card__label">{card.label}</div>
-                </div>
                 <div className="card__content">
                   <h2 className="card__title">{card.title}</h2>
                   <p className="card__description">{card.description}</p>
@@ -732,9 +721,6 @@ const MagicBento: React.FC<BentoProps> = ({
                 el.addEventListener("click", handleClick);
               }}
             >
-              <div className="card__header">
-                <div className="card__label">{card.label}</div>
-              </div>
               <div className="card__content">
                 <h2 className="card__title">{card.title}</h2>
                 <p className="card__description">{card.description}</p>

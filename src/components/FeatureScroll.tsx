@@ -1,6 +1,5 @@
 import React from 'react';
 import InfiniteScroll from '../bits/Components/InfiniteScroll/InfiniteScroll';
-import FlipCard from './FlipCard';
 import './FeatureScroll.css';
 
 const FeatureScroll: React.FC = () => {
@@ -11,44 +10,51 @@ const FeatureScroll: React.FC = () => {
     },
     {
       title: 'Unifying Benchmark',
-      description: 'Evaluate investments against a standardized benchmark to assess relative performance accurately.',
+      description: 'Evaluate investments against a customised benchmark to assess relative performance accurately.',
     },
     {
       title: 'Custom Dashboards',
       description: 'Build personalized dashboards to visualize and compare selected investments and metrics.',
     },
     {
+      title: 'Powerful Analytics',
+      description: 'Access advanced tools to analyze investments trends, risks, and opportunities with precision.',
+    },
+    {
       title: 'Artificial Intelligence',
-      description: 'Leverage AI with a vectorized database to gain contextual insights and predictive analytics.',
+      description: 'Leverage AI with to gain contextual insights on investments',
     },
     {
       title: 'Seamless Integration',
       description: 'Connect with financial platforms and data sources for real-time investments comparison.',
     },
-    {
-      title: 'Powerful Analytics',
-      description: 'Access advanced tools to analyze investments trends, risks, and opportunities with precision.',
-    },
+
   ];
 
   const scrollItems = features.map((feature, index) => ({
     content: (
-      <div className="feature-card">
-        <FlipCard
-          key={index}
-          frontContent={<div className="feature-title">{feature.title}</div>}
-          backContent={<div className="feature-description">{feature.description}</div>}
-          width="100%"
-          height="100%"
-        />
+      <div className="feature-card" key={index}>
+        <h3 className="feature-title">{feature.title}</h3>
+        <p className="feature-description">{feature.description}</p>
       </div>
     ),
   }));
 
   return (
     <div className="feature-scroll-section">
-    
-      <InfiniteScroll items={scrollItems} autoplay={true} itemMinHeight={400} negativeMargin="-19em" width="100vw" tiltDirection={'right'} isTilted={false} pauseOnHover={true}/>
+      <InfiniteScroll
+        items={scrollItems}
+        autoplay={true}
+        autoplaySpeed={0.3} // Increased value to slow down the animation
+        itemMinHeight={50}
+        itemMinWidth={300} 
+        negativeMargin="-3rem"
+        width="100vw"
+        tiltDirection={'right'}
+        isTilted={false}
+        pauseOnHover={true}
+        scrollDirection="vertical" 
+      />
     </div>
   );
 };

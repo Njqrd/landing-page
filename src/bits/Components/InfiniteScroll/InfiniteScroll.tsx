@@ -19,12 +19,14 @@ interface InfiniteScrollProps {
   negativeMargin?: string;
   items?: InfiniteScrollItem[];
   itemMinHeight?: number;
+  itemMinWidth?: number; // New prop for horizontal scrolling
   isTilted?: boolean;
-  tiltDirection?: "left" | "right";
+  tiltDirection?: "left" | "right" | "up" | "down"; // Updated tilt directions
   autoplay?: boolean;
   autoplaySpeed?: number;
-  autoplayDirection?: "down" | "up";
+  autoplayDirection?: "down" | "up" | "left" | "right"; // Updated autoplay directions
   pauseOnHover?: boolean;
+  scrollDirection?: "vertical" | "horizontal"; // New prop for scroll direction
 }
 
 const InfiniteScroll: React.FC<InfiniteScrollProps> = ({
@@ -33,21 +35,29 @@ const InfiniteScroll: React.FC<InfiniteScrollProps> = ({
   negativeMargin = "-0.5em",
   items = [],
   itemMinHeight = 150,
+  itemMinWidth = 250, // Default for horizontal
   isTilted = false,
   tiltDirection = "left",
   autoplay = false,
   autoplaySpeed = 0.5,
   autoplayDirection = "down",
   pauseOnHover = false,
+  scrollDirection = "vertical", // Default to vertical
 }) => {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const getTiltTransform = (): string => {
     if (!isTilted) return "none";
-    return tiltDirection === "left"
-      ? "rotateX(20deg) rotateZ(-20deg) skewX(20deg)"
-      : "rotateX(20deg) rotateZ(20deg) skewX(-20deg)";
+    if (scrollDirection === "vertical") {
+      return tiltDirection === "left"
+        ? "rotateX(20deg) rotateZ(-20deg) skewX(20deg)"
+        : "rotateX(20deg) rotateZ(20deg) skewX(-20deg)";
+    } else { // Horizontal
+      return tiltDirection === "up"
+        ? "rotateY(20deg) rotateZ(-20deg) skewY(20deg)" // Adjusted for horizontal
+        : "rotateY(-20deg) rotateZ(20deg) skewY(-20deg)"; // Adjusted for horizontal
+    }
   };
 
   useEffect(() => {
@@ -60,38 +70,46 @@ const InfiniteScroll: React.FC<InfiniteScrollProps> = ({
 
     const firstItem = divItems[0];
     const itemStyle = getComputedStyle(firstItem);
-    const itemHeight = firstItem.offsetHeight;
-    const itemMarginTop = parseFloat(itemStyle.marginTop) || 0;
-    const totalItemHeight = itemHeight + itemMarginTop;
-    const totalHeight =
-      itemHeight * items.length + itemMarginTop * (items.length - 1);
 
-    const wrapFn = gsap.utils.wrap(-totalHeight, totalHeight);
+    const isHorizontal = scrollDirection === "horizontal";
+    const sizeProperty = isHorizontal ? "offsetWidth" : "offsetHeight";
+    const marginProperty = isHorizontal ? "marginLeft" : "marginTop";
+    const positionProperty = isHorizontal ? "x" : "y";
+    const deltaProperty = isHorizontal ? "deltaX" : "deltaY";
+
+    const itemSize = firstItem[sizeProperty];
+    const itemMargin = parseFloat(itemStyle[marginProperty as any]) || 0;
+    const totalItemSize = itemSize + itemMargin;
+    const totalContentSize =
+      itemSize * items.length + itemMargin * (items.length - 1);
+
+    const wrapFn = gsap.utils.wrap(-totalContentSize, totalContentSize);
 
     divItems.forEach((child, i) => {
-      const y = i * totalItemHeight;
-      gsap.set(child, { y });
+      const pos = i * totalItemSize;
+      gsap.set(child, { [positionProperty]: pos });
     });
 
     const observer = Observer.create({
       target: container,
-      type: "touch,pointer",
+      type: "touch,pointer", // Removed 'wheel' from the type
       onPress: ({ target }) => {
         (target as HTMLElement).style.cursor = "grabbing";
       },
       onRelease: ({ target }) => {
         (target as HTMLElement).style.cursor = "grab";
       },
-      onChange: ({ deltaY, isDragging, event }) => {
-        const d = event.type === "wheel" ? -deltaY : deltaY;
+      onChange: ({ [deltaProperty]: delta, isDragging, event }) => {
+        // Use destructuring for deltaProperty
+        const d = event.type === "wheel" ? -delta : delta;
         const distance = isDragging ? d * 5 : d * 10;
         divItems.forEach((child) => {
           gsap.to(child, {
             duration: 0.5,
             ease: "expo.out",
-            y: `+=${distance}`,
+            [positionProperty]: `+=${distance}`, // Use computed property name
             modifiers: {
-              y: gsap.utils.unitize(wrapFn),
+              [positionProperty]: gsap.utils.unitize(wrapFn), // Use computed property name
             },
           });
         });
@@ -100,21 +118,25 @@ const InfiniteScroll: React.FC<InfiniteScrollProps> = ({
 
     let animation: gsap.core.Tween;
     if (autoplay) {
-      const directionFactor = autoplayDirection === "down" ? 1 : -1;
-      
+      let directionFactor = 1;
+      if (autoplayDirection === "up" || autoplayDirection === "left") {
+        directionFactor = -1;
+      }
+
       animation = gsap.to(divItems, {
-        y: `+=${totalHeight * directionFactor}`,
+        [positionProperty]: `+=${totalContentSize * directionFactor}`, // Use computed property name
         ease: "none",
         repeat: -1,
         duration: (items.length * 2) / autoplaySpeed,
         modifiers: {
-          y: (y) => wrapFn(parseFloat(y)) + "px",
+          [positionProperty]: (pos) => wrapFn(parseFloat(pos)) + "px", // Use computed property name
         },
       });
 
       if (pauseOnHover) {
-        const pauseAnimation = () => animation.pause();
-        const resumeAnimation = () => animation.resume();
+        // Changed to timeScale for more reliable pause/resume
+        const pauseAnimation = () => animation.timeScale(0);
+        const resumeAnimation = () => animation.timeScale(1);
 
         divItems.forEach((child) => {
           child.addEventListener("mouseenter", pauseAnimation);
@@ -123,7 +145,9 @@ const InfiniteScroll: React.FC<InfiniteScrollProps> = ({
 
         return () => {
           observer.kill();
-          animation.kill();
+          if (animation) {
+            animation.kill();
+          }
           divItems.forEach((child) => {
             child.removeEventListener("mouseenter", pauseAnimation);
             child.removeEventListener("mouseleave", resumeAnimation);
@@ -148,6 +172,8 @@ const InfiniteScroll: React.FC<InfiniteScrollProps> = ({
     tiltDirection,
     negativeMargin,
     itemMinHeight,
+    itemMinWidth,
+    scrollDirection, // Add scrollDirection to dependencies
   ]);
 
   return (
@@ -155,16 +181,26 @@ const InfiniteScroll: React.FC<InfiniteScrollProps> = ({
       <style>
         {`
           .infinite-scroll-wrapper {
-            max-height: ${maxHeight};
+            max-${scrollDirection === "horizontal" ? "width" : "height"}: ${
+          scrollDirection === "horizontal" ? width : maxHeight
+        };
+            ${
+              scrollDirection === "horizontal"
+                ? "height: 100%; overflow-x: hidden; overflow-y: hidden;" 
+                : "width: 100%; overflow-y: scroll; overflow-x: hidden;"
+            }
           }
   
           .infinite-scroll-container {
-            width: ${width};
+            display: flex;
+            flex-direction: ${scrollDirection === "horizontal" ? "row" : "column"};
+            ${scrollDirection === "horizontal" ? "height: 100%;" : "width: 100%;"}
           }
   
           .infinite-scroll-item {
-            min-height: ${itemMinHeight}px;
-            margin-top: ${negativeMargin};
+            min-${scrollDirection === "horizontal" ? "width" : "height"}: ${
+          scrollDirection === "horizontal" ? itemMinWidth : itemMinHeight
+        }px;
           }
         `}
       </style>

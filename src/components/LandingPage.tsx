@@ -55,7 +55,7 @@ const LandingPage: React.FC = () => {
       <div ref={targetAudienceRef}>
         <TargetAudience />
       </div>
-      <FinalCTA />
+      {/* <FinalCTA /> */}
       <Footer />
     </div>
   )

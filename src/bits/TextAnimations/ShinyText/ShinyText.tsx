@@ -49,7 +49,7 @@ const ShinyText: React.FC<ShinyTextProps> = ({
     const distance = Math.abs(mousePosition.x - charCenterX); // Only consider X distance
 
     // Adjust these values to control the reveal effect
-    const maxDistance = 150; // Characters beyond this distance will be fully transparent (adjusted for X-only)
+    const maxDistance = 400; // Characters beyond this distance will be fully transparent (adjusted for X-only)
     const minOpacity = 0;
     const maxOpacity = 1;
 

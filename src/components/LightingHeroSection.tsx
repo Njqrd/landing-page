@@ -10,12 +10,12 @@ const LightingHeroSection: React.FC = () => {
         <LightRays 
           raysOrigin="top-center"
           raysColor={'#ffffff'}
-          raysSpeed={0.5}
-          lightSpread={0.1}
-          rayLength={2}
+          raysSpeed={0}
+          lightSpread={0.2}
+          rayLength={5}
           pulsating={false}
           fadeDistance={1}
-          saturation={0.8}
+          saturation={1}
           followMouse={true}
           mouseInfluence={1}
           noiseAmount={0}
@@ -28,7 +28,7 @@ const LightingHeroSection: React.FC = () => {
       <div className="hero-content">
         {/* Logo */}
         <div className="hero-logo">
-          <h1 className="logo-text">Find Alpha IO</h1>
+          <h1 className="logo-text">Find Alpha</h1>
         </div>
 
         {/* Main Shiny Text */}

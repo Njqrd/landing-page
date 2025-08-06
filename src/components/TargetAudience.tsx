@@ -65,6 +65,10 @@ const TargetAudience: React.FC = () => {
     setHoveredPersona(persona);
   };
 
+  const handleButtonClick = () => {
+    window.open('http://app.findalpha.io', '_blank');
+  };
+
   return (
     <section className="target-audience">
       <div className="target-audience__container">
@@ -139,11 +143,8 @@ const TargetAudience: React.FC = () => {
               Join thousands of financial professionals who trust Find Alpha IO
             </p>
             <div className="target-audience__cta-buttons">
-              <button className="target-audience__cta-primary cursor-target">
+              <button className="target-audience__cta-primary cursor-target" onClick={handleButtonClick}>
                 Start Finding Alpha
-              </button>
-              <button className="target-audience__cta-secondary cursor-target">
-                Schedule Demo
               </button>
             </div>
           </div>

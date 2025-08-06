@@ -35,6 +35,10 @@ const ProblemSolutionSection: React.FC = () => {
     }
   ]
 
+  const handleButtonClick = () => {
+    window.open('http://app.findalpha.io', '_blank');
+  };
+
   return (
     <section className="problem-solution-section">
       <div className="problem-solution-container">
@@ -82,8 +86,7 @@ const ProblemSolutionSection: React.FC = () => {
 
         {/* Call to Action */}
         <div className="section-cta">
-
-          <button className="cta-button cursor-target">
+          <button className="cta-button cursor-target" onClick={handleButtonClick}>
             Start Finding Alpha
           </button>
         </div>

@@ -3,7 +3,6 @@ import LightingHeroSection from './LightingHeroSection'
 import ProblemSolutionSection from './ProblemSolutionSection'
 import PowerfulFeatures from './PowerfulFeatures'
 import TargetAudience from './TargetAudience'
-import FinalCTA from './FinalCTA'
 import Footer from './Footer'
 import TargetCursor from '../bits/Animations/TargetCursor/TargetCursor' // Import TargetCursor
 
@@ -55,7 +54,6 @@ const LandingPage: React.FC = () => {
       <div ref={targetAudienceRef}>
         <TargetAudience />
       </div>
-      {/* <FinalCTA /> */}
       <Footer />
     </div>
   )

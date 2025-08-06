@@ -8,8 +8,8 @@ const Footer: React.FC = () => {
       {/* Removed footer-base-background div, footer itself will handle solid background */}
       <div className="footer__background">
         <Particles
-          count={40}
-          particleColor="#B0B0B0" /* Adjusted particle color for subtlety */
+          particleCount={40}
+          particleColors={["#B0B0B0"]} /* Adjusted particle color for subtlety */
         />
       </div>
       <div className="footer-container">

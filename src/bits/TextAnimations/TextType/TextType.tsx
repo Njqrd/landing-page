@@ -114,7 +114,7 @@ const TextType = ({
       return;
     }
 
-    let timeout: number;
+    let timeout: ReturnType<typeof setTimeout>;
 
     const currentText = textArray[currentTextIndex];
     const processedText = reverseMode

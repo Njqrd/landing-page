@@ -1,0 +1,17 @@
+{
+  "name": "FindAlpha",
+  "short_name": "FindAlpha",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#039301",
+  "description": "AI-powered fund analysis and investment tools by FindAlpha.",
+  "icons": [
+    {
+      "src": "/vite.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+} 
